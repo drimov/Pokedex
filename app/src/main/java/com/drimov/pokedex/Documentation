@@ -1,0 +1,140 @@
+# Documentation Pokedex
+
+  Écrit par Dimitri Lhopital
+ Utilisation de l'architecture MVVM
+
+## Data
+    Contient les données de l'application.
+-----
+- #### Remote
+   Contient les requêtes, les classes ainsi que les types de données fournies par l'Api.
+
+- #### Dto
+   Classes de données qui permettent de récupérer des types de données.
+
+   >#### *Listes de classes de donnés (Liste non listé ici pour une lisibilité de la documentation).*
+    - #### *PokedexApi* :
+      Interface avec les requêtes effectuées à l'API.
+
+- ### Repository :
+   Contients implémentation des repository du domain pour le cloisonnement.
+
+  - #### *PokemonRepositoryImpl* :
+   Classe qui contient les méthodes des interfaces repository du Domain.
+
+## Di
+    Ensemble des injections de dépendances.
+___
+- #### *AppModule*:
+   Module d'injection pour l'application.
+
+- #### *PokemonModule*:
+   Module pour les repository et les cas d'utilisation.
+
+## Domain
+    Regroupe l'ensemble des modèles, repository utilisé pour la couche visuel et les uses cases.
+___
+
+- #### Model:
+   Regroupe les modèles pour la couche visuel et viewmodel.
+
+ - #### Repository:
+    Regroupe les interfaces d'implémentation qui sera permet le cloisonnement entre la couche données et la couche visuel.
+
+   - #### *PokemonRepository*:
+      Interface contenant les méthodes pour la récupération des réponses de l'API PokeApi.
+
+- #### Use case:
+   Regroupe les cas d'utilisations pour l'application, utilisé uniquement par le ViewModel.
+
+    - #### *GetPokemonList* :
+       Récupère la liste de pokémon pour une génération passée en paramètre.
+
+     - #### *GetPokemon* :
+        Récupère un pokémon en passant son numéro en paramètre.
+
+## Presentation
+    Regroupe le visuel de l'application: View, ViewModel
+___
+
+- ### Pokedex List:
+    Regroupe les events, les états, la vue et le viewModel de l'affichage de la liste des pokémons.
+
+    - ### *PokedexListEvent* :
+        Regroupe les méthodes pour les actions effectué sur l'écran de la liste de pokémon
+
+    - ### *PokedexListInfoState* :
+        Regroupe les données affichées à l'écran et l'état des données pour une action donnée
+
+    - ### *PokedexListScreen* :
+        Interface de l'écran de la liste des pokémons
+
+    - ### *PokedexListViewModel* :
+        Classe qui gère les actions, les événements, les données à passer la vue.
+
+    - ### *PokemonInfo* :
+        Interface qui définit l'affichage des pokémons sur l'écran de la liste de pokemons.
+
+- ### Pokedex Pokemon :
+    Regroupe les events, les états, la vue et le viewModel de l'affichage d'un pokémon.
+
+    - ### PokedexPokemonEvent :
+        Regroupe les méthodes pour les actions effectué sur l'écran des infos d'un pokémon
+
+    - ### *PokedexPokemonInfoState* :
+        Regroupe les données affichées à l'écran et l'état des données pour une action donnée
+
+    - ### *PokedexPokemonScreen* :
+        Interface de l'écran des infos du pokémon
+
+    - ### *PokedexPokemonViewModel* :
+         Classe qui gère les actions, les événements, les données à passer la vue.
+
+- ### Pokedex Splash :
+     Regroupe les events, les états, la vue et le viewModel de l'affichage d'un Splash screen.
+
+     - ### *PokedexSplashScreen* :
+        Interface de l'écram du Splash Screen avec un logo.
+
+     - ### *PokedexSplashViewModel* :
+        Permet la transition entre le Splash Screen et l'affichage de la liste des pokémons.
+
+     - ### Ui :
+        Dossier qui répertoris les couleurs, les types, les formes et le thème.
+        >#### *Listes de classe de l'ui  (non listé ici, fourni par défaut par Android).*
+
+     - ### *MainActivity* :
+        Classe par défaut qui fournit le point d'entrée de l'application.
+
+     - ### *NavGraph* :
+        Classe qui fournit les différentes routes pour les différentes vues et les arguments.
+
+ ## Util :
+    Regroupe les constantes, les routes et des classes génériques de l'application.
+   ---
+   - ### *Constants* :
+        Regroupe l'ensemble des constantes de l'application.
+
+    - ### *Resource* :
+        Classe générique pour les réponses possibles pour les requêtes de base de donnée.
+
+    - ### *Routes* :
+        Définition des routes sous forme de variable de chaîne de caractères.
+
+    - ### *UiEvent* :
+         Classe générique pour les actions globals de l'application (navigation,retour en arrière, etc)
+
+- ### *PokedexApp* :
+    Classe qui étent Application pour l'injection de dépendance.
+
+## Ressource Image Utilisées
+      Image PokeApi
+
+## Librairies utilisées
+   - ### Dagger Hilt
+    - ### Retrofit
+    - ### OKttp Interceptor
+    - ### Kotlin extension coroutine
+    - ### Coil : Kotlin/ Compose / Svg
+    - ### Accompanist : pager / pager-indicators
+---
