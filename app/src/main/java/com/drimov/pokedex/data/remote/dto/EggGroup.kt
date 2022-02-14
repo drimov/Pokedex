@@ -1,6 +1,6 @@
 package com.drimov.pokedex.data.remote.dto
 
-data class TypeX(
+data class EggGroup(
     val name: String,
     val url: String
 )

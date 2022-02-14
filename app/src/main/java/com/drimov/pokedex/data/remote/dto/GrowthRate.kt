@@ -1,6 +1,6 @@
 package com.drimov.pokedex.data.remote.dto
 
-data class AbilityX(
+data class GrowthRate(
     val name: String,
     val url: String
 )

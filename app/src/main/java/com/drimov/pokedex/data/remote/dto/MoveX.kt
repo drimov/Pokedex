@@ -1,6 +1,6 @@
 package com.drimov.pokedex.data.remote.dto
 
 data class MoveX(
-    val move: MoveXX,
+    val move: Move,
     val version_group_details: List<VersionGroupDetail>
 )

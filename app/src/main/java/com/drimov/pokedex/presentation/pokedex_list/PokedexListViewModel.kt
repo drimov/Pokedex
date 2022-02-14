@@ -3,7 +3,6 @@ package com.drimov.pokedex.presentation.pokedex_list
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.text.capitalize
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drimov.pokedex.domain.model.PokedexListEntry
@@ -37,7 +36,7 @@ class PokedexListViewModel @Inject constructor(
 
 
     init {
-        onLoadPokedex(defaultGen,1)
+        onLoadPokedex(defaultGen)
     }
 
     private var loadJob: Job? = null
@@ -45,16 +44,19 @@ class PokedexListViewModel @Inject constructor(
     fun onEvent(event: PokedexListEvent) {
         when (event) {
             is PokedexListEvent.OnPokemonClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.POKEDEX_POKEMON + "?name=${event.name}?url=${event.url}"))
+                sendUiEvent(UiEvent.Navigate(Routes.POKEDEX_POKEMON + "?id=${event.id}"))
             }
             is PokedexListEvent.OnGenerationClick -> {
                 var gen = event.gen.lowercase().replace(" ", "-")
-                onLoadPokedex(gen, event.number)
+                onLoadPokedex(gen)
+            }
+            is PokedexListEvent.OnReload ->{
+                onLoadPokedex(defaultGen)
             }
         }
     }
 
-    private fun onLoadPokedex(gen: String, genNb: Int) {
+    private fun onLoadPokedex(gen: String) {
         loadJob = viewModelScope.launch {
             getPokemonList.invoke(gen)
                 .onEach { item ->
@@ -67,11 +69,7 @@ class PokedexListViewModel @Inject constructor(
                                     } else {
                                         entry.url.takeLastWhile { it.isDigit() }
                                     }
-                                    val url = if (genNb < 6) {
-                                        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg"
-                                    } else {
-                                        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png"
-                                    }
+                                    val url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png"
                                         PokedexListEntry(
                                             entry.name.replaceFirstChar {
                                                 if (it.isLowerCase()) it.titlecase(
@@ -84,20 +82,26 @@ class PokedexListViewModel @Inject constructor(
                                 }
                             _state.value = state.value.copy(
                                 pokemonItem = pokedexListEntry!!,
-                                isLoading = false
+                                isLoading = false,
+                                isError = false
+
                             )
                         }
                         is Resource.Loading -> {
                             _state.value = state.value.copy(
                                 pokemonItem = emptyList(),
-                                isLoading = true
+                                isLoading = true,
+                                isError = false
                             )
                         }
                         is Resource.Error -> {
+                            _state.value = state.value.copy(
+                                pokemonItem = emptyList(),
+                                isLoading = false,
+                                isError = true
+                            )
                             _eventFlow.emit(
-                                UiEvent.ShowSnackBar(
-                                    item.message ?: "Unknown Error"
-                                )
+                                UiEvent.NetworkError
                             )
                         }
                     }

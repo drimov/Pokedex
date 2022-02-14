@@ -1,6 +1,5 @@
 package com.drimov.pokedex.data.remote.dto
 
-data class AbilityX(
-    val name: String,
+data class EvolutionChain(
     val url: String
 )

@@ -1,7 +1,7 @@
 package com.drimov.pokedex.data.remote.dto
 
 data class PokemonListGeneration(
-    val abilities: List<Ability>,
+    val abilities: List<AbilityX>,
     val id: Int,
     val main_region: MainRegion,
     val moves: List<Move>,

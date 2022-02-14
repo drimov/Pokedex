@@ -1,7 +1,7 @@
 package com.drimov.pokedex.data.remote.dto
 
 data class Pokemon(
-    val abilities: List<AbilityX>,
+    val abilities: List<Ability>,
     val base_experience: Int,
     val forms: List<Form>,
     val game_indices: List<GameIndice>,

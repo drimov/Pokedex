@@ -11,22 +11,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.ImageLoader
-import com.drimov.pokedex.domain.use_case.GetPokemonList
 import com.drimov.pokedex.util.UiEvent
 import kotlinx.coroutines.flow.collect
-import com.drimov.pokedex.R
 import com.drimov.pokedex.presentation.ui.theme.Blue700
 import com.drimov.pokedex.presentation.ui.theme.Red200
+import com.drimov.pokedex.util.Constants
+import com.drimov.pokedex.util.Constants.genList
 
 @Composable
 fun PokedexListScreen(
@@ -37,24 +36,19 @@ fun PokedexListScreen(
         viewModel.eventFlow.collect { event ->
             when (event) {
                 is UiEvent.Navigate -> onNavigate(event)
+                is UiEvent.NetworkError -> Log.d("is here", "display")
                 else -> Unit
             }
         }
     }
-    val state = viewModel.state.value
+
+    val state by remember {
+        viewModel.state
+    }
     val scaffoldState = rememberScaffoldState()
     var expanded by remember { mutableStateOf(false) }
-    var selectItem by remember { mutableStateOf(0) }
-    val items = listOf<String>(
-        "Generation I",
-        "Generation II",
-        "Generation III",
-        "Generation IV",
-        "Generation V",
-        "Generation VI",
-        "Generation VII",
-        "Generation VIII",
-    )
+
+
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = Modifier.fillMaxSize(),
@@ -74,14 +68,18 @@ fun PokedexListScreen(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
                 modifier = Modifier
-                    .background(Blue700)
-                    .clip(shape = RoundedCornerShape(16.dp))
+                    .background(Blue700),
             ) {
-                items.forEachIndexed { index, text ->
+                genList.forEachIndexed { index, text ->
                     DropdownMenuItem(
                         onClick = {
                             Log.d("Drop", "${index.plus(1)}")
-                            viewModel.onEvent(PokedexListEvent.OnGenerationClick(text,index.plus(1)))
+                            viewModel.onEvent(
+                                PokedexListEvent.OnGenerationClick(
+                                    text,
+                                    index.plus(1)
+                                )
+                            )
                         }) {
                         Text(text = text, color = Color.White)
                     }
@@ -92,9 +90,9 @@ fun PokedexListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Blue700)
-                .padding(16.dp)
+                .padding(16.dp),
 
-        ) {
+            ) {
             items(state.pokemonItem.size) { i ->
                 val pokemon = state.pokemonItem[i]
                 if (i > 0) {
@@ -102,29 +100,46 @@ fun PokedexListScreen(
                 }
                 PokemonInfo(
                     pokedexListEntry = pokemon,
+                    viewModel = viewModel,
                     modifier = Modifier
-                        .fillMaxSize()
-                        .clickable {
-                            viewModel.onEvent(PokedexListEvent.OnPokemonClick(pokemon.name.lowercase(), url = pokemon.url))
-                        }
+                        .fillMaxSize(),
+                    id = i
                 )
                 if (i < state.pokemonItem.size - 1) {
                     Spacer(modifier = Modifier.padding(8.dp))
                 }
             }
         }
-        //-------------------//
         if (state.isLoading) {
-            Log.d("list screen", "isLoading end")
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.fillMaxSize()
             ) {
                 CircularProgressIndicator()
             }
-
         }
-
+        if (state.isError) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Center)
+            ) {
+                Text(
+                    text = Constants.httpExceptionErr,
+                    color = Color.Red,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+                Spacer(modifier = Modifier.padding(8.dp))
+                Box (modifier = Modifier.align(CenterHorizontally)) {
+                    Button(
+                        onClick = { viewModel.onEvent(PokedexListEvent.OnReload)}
+                    ) {
+                        Text(text = "Retry")
+                    }
+                }
+            }
+        }
     }
     BackHandler(enabled = true) {}
 }
