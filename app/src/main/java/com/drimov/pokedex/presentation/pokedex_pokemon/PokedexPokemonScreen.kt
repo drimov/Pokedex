@@ -282,8 +282,8 @@ fun OthersCard(abilities: List<Ability>, pokemonSpecies: PokemonSpecies) {
             .fillMaxSize()
     ) {
 
-        Row(modifier = Modifier.padding(16.dp)) {
-            Column(modifier = Modifier.padding(16.dp)) {
+        Row(modifier = Modifier.padding(16.dp).fillMaxSize(), horizontalArrangement = Arrangement.SpaceAround) {
+            Column(modifier = Modifier.padding(16.dp).fillMaxSize(0.5f)) {
                 Text(
                     text = "Base happiness",
                     color = Color.White,
@@ -315,7 +315,7 @@ fun OthersCard(abilities: List<Ability>, pokemonSpecies: PokemonSpecies) {
                     fontWeight = FontWeight.Bold
                 )
             }
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(modifier = Modifier.padding(16.dp).fillMaxSize(0.5f)) {
 
                 Text(
                     text = pokemonSpecies.base_happiness.toString() ?: "unknown",
