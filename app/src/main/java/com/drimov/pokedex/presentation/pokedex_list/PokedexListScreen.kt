@@ -36,7 +36,6 @@ fun PokedexListScreen(
         viewModel.eventFlow.collect { event ->
             when (event) {
                 is UiEvent.Navigate -> onNavigate(event)
-                is UiEvent.NetworkError -> Log.d("is here", "display")
                 else -> Unit
             }
         }
@@ -73,7 +72,6 @@ fun PokedexListScreen(
                 genList.forEachIndexed { index, text ->
                     DropdownMenuItem(
                         onClick = {
-                            Log.d("Drop", "${index.plus(1)}")
                             viewModel.onEvent(
                                 PokedexListEvent.OnGenerationClick(
                                     text,
@@ -93,8 +91,11 @@ fun PokedexListScreen(
                 .padding(16.dp),
 
             ) {
-            items(state.pokemonItem.size) { i ->
-                val pokemon = state.pokemonItem[i]
+            val pokemonFilter = state.pokemonItem.sortedBy {
+                it.id
+            }
+            items(pokemonFilter.size) { i ->
+                val pokemon = pokemonFilter[i]
                 if (i > 0) {
                     Spacer(modifier = Modifier.height(8.dp))
                 }
@@ -103,7 +104,7 @@ fun PokedexListScreen(
                     viewModel = viewModel,
                     modifier = Modifier
                         .fillMaxSize(),
-                    id = i
+                    id = pokemonFilter[i].id
                 )
                 if (i < state.pokemonItem.size - 1) {
                     Spacer(modifier = Modifier.padding(8.dp))

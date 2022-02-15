@@ -100,9 +100,6 @@ class PokedexListViewModel @Inject constructor(
                                 isLoading = false,
                                 isError = true
                             )
-                            _eventFlow.emit(
-                                UiEvent.NetworkError
-                            )
                         }
                     }
                 }.launchIn(this)

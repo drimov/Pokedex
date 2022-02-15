@@ -41,7 +41,7 @@ fun PokemonInfo(
             .clickable {
                 viewModel.onEvent(
                     PokedexListEvent.OnPokemonClick(
-                        viewModel.state.value.pokemonItem[id].id
+                        id
                     )
                 )
             },
