@@ -28,9 +28,9 @@ import coil.compose.rememberImagePainter
 import com.drimov.pokedex.R
 import com.drimov.pokedex.data.remote.dto.*
 import com.drimov.pokedex.presentation.ui.theme.*
-import com.drimov.pokedex.util.Constants.listColor
-import com.drimov.pokedex.util.Constants.listTypes
 import com.drimov.pokedex.util.UiEvent
+import com.drimov.pokedex.util.parseNumberToIndex
+import com.drimov.pokedex.util.parseTypeToColor
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -66,15 +66,7 @@ fun PokedexPokemonScreen(
             }
         }
         false -> {
-
-            val pokemonColor = viewModel.state.value.pokemon!!.types[dominantType]
-
-            for (i in listTypes.indices) {
-                val type = listTypes[i].substring(startIndex = 4).lowercase()
-                if (pokemonColor.type.name == type) {
-                    backgroundColor = listColor[i]
-                }
-            }
+            backgroundColor = parseTypeToColor(viewModel.state.value.pokemon!!.types[dominantType])
             val scroll = rememberScrollState()
             Column(
                 modifier = Modifier
@@ -128,16 +120,8 @@ fun HeaderInfo(viewModel: PokedexPokemonViewModel, language: String) {
                 tint = Color.White
             )
 
-            // number
-            val id = pokemon?.id
-            var textId = "#"
-            textId += when (id) {
-                in 0..9 -> "00${id}"
-                in 10..99 -> "0${id}"
-                else -> "$id"
-            }
             Text(
-                text = textId,
+                text = parseNumberToIndex(pokemon!!.id),
                 modifier = Modifier
                     .alpha(0.60f),
                 color = Color.White,
@@ -282,8 +266,8 @@ fun OthersCard(abilities: List<Ability>, pokemonSpecies: PokemonSpecies) {
             .fillMaxSize()
     ) {
 
-        Row(modifier = Modifier.padding(16.dp).fillMaxSize(), horizontalArrangement = Arrangement.SpaceAround) {
-            Column(modifier = Modifier.padding(16.dp).fillMaxSize(0.5f)) {
+        Row(modifier = Modifier.padding(8.dp).fillMaxSize(), horizontalArrangement = Arrangement.SpaceAround) {
+            Column(modifier = Modifier.padding(16.dp).fillMaxSize(0.4f)) {
                 Text(
                     text = "Base happiness",
                     color = Color.White,
@@ -315,7 +299,7 @@ fun OthersCard(abilities: List<Ability>, pokemonSpecies: PokemonSpecies) {
                     fontWeight = FontWeight.Bold
                 )
             }
-            Column(modifier = Modifier.padding(16.dp).fillMaxSize(0.5f)) {
+            Column(modifier = Modifier.padding(16.dp).fillMaxSize(0.65f)) {
 
                 Text(
                     text = pokemonSpecies.base_happiness.toString() ?: "unknown",

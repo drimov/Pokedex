@@ -47,11 +47,13 @@ class PokedexListViewModel @Inject constructor(
                 sendUiEvent(UiEvent.Navigate(Routes.POKEDEX_POKEMON + "?id=${event.id}"))
             }
             is PokedexListEvent.OnGenerationClick -> {
-                var gen = event.gen.lowercase().replace(" ", "-")
-                onLoadPokedex(gen)
+                onLoadPokedex(event.gen)
             }
+
             is PokedexListEvent.OnReload ->{
-                onLoadPokedex(defaultGen)
+                if(event.gen.isNullOrEmpty()) onLoadPokedex(defaultGen)
+                else onLoadPokedex(event.gen)
+
             }
         }
     }
@@ -63,7 +65,7 @@ class PokedexListViewModel @Inject constructor(
                     when (item) {
                         is Resource.Success -> {
                             val pokedexListEntry =
-                                item.data?.pokemon_species?.mapIndexed { index, entry ->
+                                item.data?.pokemon_species?.mapIndexed { _, entry ->
                                     val id = if (entry.url.endsWith("/")) {
                                         entry.url.dropLast(1).takeLastWhile { it.isDigit() }
                                     } else {
