@@ -7,14 +7,16 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.drimov.pokedex.data.remote.dto.Pokemon
+import com.drimov.pokedex.domain.model.PokemonData
 import com.drimov.pokedex.domain.use_case.GetPokemon
 import com.drimov.pokedex.util.Resource
-import com.drimov.pokedex.util.ResourceMultiple
 import com.drimov.pokedex.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,7 +33,7 @@ class PokedexPokemonViewModel @Inject constructor(
     private val _uiEvent = MutableSharedFlow<UiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
 
-    private var pokemon by mutableStateOf<Pokemon?>(null)
+    private var pokemonData by mutableStateOf<PokemonData?>(null)
 
     private var loadJob: Job? = null
 
@@ -55,27 +57,43 @@ class PokedexPokemonViewModel @Inject constructor(
             getPokemon.invoke(id!!)
                 .onEach { item ->
                     when (item) {
-                        is ResourceMultiple.Success -> {
+                        is Resource.Success -> {
                             _state.value = state.value.copy(
-                                pokemon = item.dataT,
-                                pokemonSpecies = item.dataY,
-                                isLoading = false
+                                pokemonData = item.data,
+                                isLoading = false,
+                                isError = false
                             )
-                            this@PokedexPokemonViewModel.pokemon = _state.value.pokemon
+//                            _state.value = state.value.copy(
+//                                pokemon = item.dataT,
+//                                pokemonSpecies = item.dataY,
+//                                isLoading = false
+//                            )
+//                            this@PokedexPokemonViewModel.pokemon = _state.value.pokemon
+                            this@PokedexPokemonViewModel.pokemonData = _state.value.pokemonData
                         }
-                        is ResourceMultiple.Loading -> {
+                        is Resource.Loading -> {
                             _state.value = state.value.copy(
-                                pokemon = item.dataT,
-                                pokemonSpecies = item.dataY,
-                                isLoading = true
+                                pokemonData = item.data,
+                                isLoading = true,
+                                isError = false
                             )
+//                            _state.value = state.value.copy(
+//                                pokemon = item.dataT,
+//                                pokemonSpecies = item.dataY,
+//                                isLoading = true
+//                            )
                         }
-                        is ResourceMultiple.Error -> {
+                        is Resource.Error -> {
                             _state.value = state.value.copy(
-                                pokemon = item.dataT,
-                                pokemonSpecies = item.dataY,
-                                isLoading = false
+                                pokemonData = item.data,
+                                isLoading = false,
+                                isError = true
                             )
+//                            _state.value = state.value.copy(
+//                                pokemon = item.dataT,
+//                                pokemonSpecies = item.dataY,
+//                                isLoading = false
+//                            )
                             _uiEvent.emit(
                                 UiEvent.ShowSnackBar(
                                     item.message ?: "Unknown Error"

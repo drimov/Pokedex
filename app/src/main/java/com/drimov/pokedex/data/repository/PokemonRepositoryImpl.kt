@@ -1,13 +1,18 @@
 package com.drimov.pokedex.data.repository
 
+import android.util.Log
 import com.drimov.pokedex.data.remote.PokedexApi
-import com.drimov.pokedex.data.remote.dto.Pokemon
+import com.drimov.pokedex.data.remote.dto.AbilityTranslate
+import com.drimov.pokedex.data.remote.dto.EggTranslate
 import com.drimov.pokedex.data.remote.dto.PokemonListGeneration
-import com.drimov.pokedex.data.remote.dto.PokemonSpecies
+import com.drimov.pokedex.domain.model.PokemonData
 import com.drimov.pokedex.domain.repository.PokemonRepository
 import com.drimov.pokedex.util.Constants
 import com.drimov.pokedex.util.Resource
-import com.drimov.pokedex.util.ResourceMultiple
+import com.drimov.pokedex.util.digit
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -41,26 +46,79 @@ class PokemonRepositoryImpl(
 
         }
 
-    override suspend fun getPokemon(id: Int): Flow<ResourceMultiple<Pokemon, PokemonSpecies>> =
+    override suspend fun getPokemon(id: Int): Flow<Resource<PokemonData>> =
         flow {
 
-            emit(ResourceMultiple.Loading<Pokemon, PokemonSpecies>())
+            emit(Resource.Loading<PokemonData>())
             try {
-                val result1 = api.getPokemon(id)
-                val result2 = api.getPokemonSpecies(id)
+                val pokemon = api.getPokemon(id)
+                var requestEgg = false
+                var requestAbilityDesc = false
+                val pokemonSpecies = api.getPokemonSpecies(id)
+                if (pokemon.isSuccessful && pokemonSpecies.isSuccessful) {
 
-                if (result1.isSuccessful && result2.isSuccessful) {
-                    emit(ResourceMultiple.Success(result1.body(), result2.body()))
+                    val growthRateTrl = api.getGrowthRate(
+                        pokemonSpecies.body()!!.growth_rate.url.digit("/").toInt()
+                    )
+                    val habitatTrl = pokemonSpecies.body()!!.habitat?.url?.digit("/")?.toInt()
+                        ?.let { api.getHabitat(it) }
+                    val shapeTrl = pokemonSpecies.body()!!.shape?.url?.digit("/")?.toInt()
+                        ?.let { api.getShape(it) }
+
+                    var abilityTrl: List<AbilityTranslate>? = null
+                    coroutineScope {
+                        val result = pokemon.body()!!.abilities.map {
+                            async {
+                                api.getAbilityDesc(it.ability.url.digit("/").toInt())
+                            }
+                        }.awaitAll()
+                        abilityTrl = result.map {
+                            it.body()!!
+                        }
+                        requestAbilityDesc = true
+                    }
+
+                    var eggs: List<EggTranslate>? = null
+                    coroutineScope {
+                        val result = pokemonSpecies.body()!!.egg_groups.map {
+                            async {
+                                api.getEgg(it.url.digit("/").toInt())
+                            }
+                        }.awaitAll()
+                        eggs = result.map {
+                            it.body()!!
+                        }
+                        requestEgg = true
+                    }
+                    Log.d("growthRate","${growthRateTrl.isSuccessful}")
+                    Log.d("Shape","${shapeTrl?.isSuccessful}")
+                    Log.d("habitat","${habitatTrl?.isSuccessful}")
+                    Log.d("abs","$requestAbilityDesc")
+                    Log.d("egg","$requestEgg")
+                    if (growthRateTrl.isSuccessful && requestAbilityDesc && requestEgg) {
+                        val pokemonData =
+                            PokemonData(
+                                pokemon = pokemon.body()!!,
+                                pokemonSpecies = pokemonSpecies.body()!!,
+                                growthRate = growthRateTrl.body()!!,
+                                habitat = habitatTrl?.body(),
+                                shape = shapeTrl?.body(),
+                                abilities = abilityTrl,
+                                egg = eggs
+                            )
+                        Log.d("pokemonData","is create")
+                        emit(Resource.Success(pokemonData))
+                    }
                 }
             } catch (e: HttpException) {
                 emit(
-                    ResourceMultiple.Error<Pokemon, PokemonSpecies>(
+                    Resource.Error<PokemonData>(
                         message = Constants.httpExceptionErr
                     )
                 )
             } catch (e: IOException) {
                 emit(
-                    ResourceMultiple.Error<Pokemon, PokemonSpecies>(
+                    Resource.Error<PokemonData>(
                         message = Constants.ioExceptionErr
                     )
                 )

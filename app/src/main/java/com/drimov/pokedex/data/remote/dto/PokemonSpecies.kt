@@ -26,6 +26,6 @@ data class PokemonSpecies(
     val order: Int,
     val pal_park_encounters: List<PalParkEncounter>,
     val pokedex_numbers: List<PokedexNumber>,
-    val shape: Shape,
+    val shape: Shape?,
     val varieties: List<Variety>
 )

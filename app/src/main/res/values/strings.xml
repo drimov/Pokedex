@@ -1,6 +1,31 @@
 <resources>
     <string name="app_name">Pokedex</string>
+
     <string name="retry">Retry</string>
 
+    <string name="about">About</string>
+    <string name="stats">Stats</string>
+    <string name="others">Other</string>
+    <string name="base_happiness">Base happiness</string>
+    <string name="habitat">Habitat</string>
+    <string name="grow_rate">Growth rate</string>
+    <string name="shape">Shape</string>
+    <string name="abilities">Abilities</string>
+    <string name="breeding">Breeding</string>
+    <string name="egg_groups">Egg Groups</string>
+    <string name="capture_rate">Capture Rate</string>
+    <string name="total">Total</string>
+    <string name="unknown">Unknown</string>
+
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="kg">kg</string>
+    <string name="lbs">lbs</string>
+    <string name="feet">\"</string>
+    <string name="meter">m</string>
+
+    <string name="type">type-%1s</string>
+
     <string name="content">Content</string>
+    <string name="arrow_back">arrow back</string>
 </resources>

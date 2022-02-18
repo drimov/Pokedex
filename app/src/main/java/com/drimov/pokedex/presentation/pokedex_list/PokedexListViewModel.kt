@@ -1,15 +1,12 @@
 package com.drimov.pokedex.presentation.pokedex_list
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drimov.pokedex.domain.model.PokedexListEntry
 import com.drimov.pokedex.domain.use_case.GetPokemonList
-import com.drimov.pokedex.util.Resource
-import com.drimov.pokedex.util.Routes
-import com.drimov.pokedex.util.UiEvent
+import com.drimov.pokedex.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,7 +14,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -66,18 +62,10 @@ class PokedexListViewModel @Inject constructor(
                         is Resource.Success -> {
                             val pokedexListEntry =
                                 item.data?.pokemon_species?.mapIndexed { _, entry ->
-                                    val id = if (entry.url.endsWith("/")) {
-                                        entry.url.dropLast(1).takeLastWhile { it.isDigit() }
-                                    } else {
-                                        entry.url.takeLastWhile { it.isDigit() }
-                                    }
+                                    val id = entry.url.digit("/")
                                     val url = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png"
                                         PokedexListEntry(
-                                            entry.name.replaceFirstChar {
-                                                if (it.isLowerCase()) it.titlecase(
-                                                    Locale.FRANCE
-                                                ) else it.toString()
-                                            },
+                                            entry.name.ucFirst(),
                                             url,
                                             id = id.toInt()
                                         )

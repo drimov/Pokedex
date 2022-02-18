@@ -1,6 +1,8 @@
 package com.drimov.pokedex.util
 
 import androidx.compose.ui.graphics.Color
+import com.drimov.pokedex.data.remote.dto.Stat
+import com.drimov.pokedex.data.remote.dto.StatX
 import com.drimov.pokedex.data.remote.dto.Type
 import com.drimov.pokedex.presentation.ui.theme.*
 import java.util.*
@@ -30,12 +32,18 @@ fun parseTypeToColor(type: Type): Color {
     }
 }
 
+fun parseStatToColor(stat: StatX): Color {
+    return when (stat.name) {
+        "hp", "defense", "speed" -> Blue700
+        else -> Color.White
+    }
+}
+
 fun parseNumberToIndex(number: Int): String {
     return when (number) {
         in 0..9 -> "#00${number}"
         in 10..99 -> "#0${number}"
         else -> "#$number"
-
     }
 }
 
@@ -55,10 +63,10 @@ fun parseGeneration(gen: String): String {
 
     return when (firstChar) {
         "I" -> when (length) {
-             in 1..3 -> genR.plus("i".repeat(length))
-            else -> genR.plus("i".repeat(length-1).plus("v"))
+            in 1..3 -> genR.plus("i".repeat(length))
+            else -> genR.plus("i".repeat(length - 1).plus("v"))
         }
-        "V" -> genR.plus("v".plus("i".repeat(length-1)))
-        else -> "error"
+        "V" -> genR.plus("v".plus("i".repeat(length - 1)))
+        else -> "Error"
     }
 }
