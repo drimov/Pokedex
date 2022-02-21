@@ -26,12 +26,15 @@ fun SetupNavGraph(
             PokedexListScreen(onNavigate = { navController.navigate(it.route) })
         }
         composable(
-            route = Routes.POKEDEX_POKEMON + "?id={id}",
+            route = Routes.POKEDEX_POKEMON + "?id={id}?language={language}",
             arguments = listOf(
 
                 navArgument(name = "id") {
                     type = NavType.IntType
                 },
+                navArgument(name = "language") {
+                    type = NavType.StringType
+                }
             )
         ) {
             PokedexPokemonScreen(onPopBackStack = { navController.popBackStack() })

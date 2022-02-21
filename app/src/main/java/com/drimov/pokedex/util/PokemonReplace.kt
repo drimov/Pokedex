@@ -1,6 +1,5 @@
 package com.drimov.pokedex.util
 
-import com.drimov.pokedex.data.remote.dto.Language
 import com.drimov.pokedex.util.Constants.typeUrlImgP1
 import com.drimov.pokedex.util.Constants.typeUrlImgP2
 import java.util.*
@@ -27,12 +26,3 @@ fun calWithRef(number: Double, ref: Double): String {
 fun String.urlType(): String {
     return typeUrlImgP1.plus(this).plus(typeUrlImgP2)
 }
-/*
-    var idGenera: Int? = null
-    pokemonSpecies!!.genera.forEachIndexed { index, genera ->
-        if (genera.language.name == language) idGenera = index
-    }
-    val textGenera = pokemonSpecies!!.genera[idGenera!!]
-
-*
- */

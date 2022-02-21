@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface PokemonRepository {
-    suspend fun getPokemonList(generation: String): Flow<Resource<PokemonListGeneration>>
+    suspend fun getPokemonList(generation: String,language: String): Flow<Resource<PokemonListGeneration>>
     suspend fun getPokemon(id: Int): Flow<Resource<PokemonData>>
 }

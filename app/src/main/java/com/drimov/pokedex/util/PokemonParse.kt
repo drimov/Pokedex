@@ -1,7 +1,6 @@
 package com.drimov.pokedex.util
 
 import androidx.compose.ui.graphics.Color
-import com.drimov.pokedex.data.remote.dto.Stat
 import com.drimov.pokedex.data.remote.dto.StatX
 import com.drimov.pokedex.data.remote.dto.Type
 import com.drimov.pokedex.presentation.ui.theme.*
@@ -57,11 +56,10 @@ fun parseNbToRomanNb(number: Int): String {
 }
 
 fun parseGeneration(gen: String): String {
-    var genR = "generation-"
-    var length = gen.length
-    var firstChar = gen.subSequence(startIndex = 0, endIndex = 1)
+    val genR = "generation-"
+    val length = gen.length
 
-    return when (firstChar) {
+    return when (gen.subSequence(startIndex = 0, endIndex = 1)) {
         "I" -> when (length) {
             in 1..3 -> genR.plus("i".repeat(length))
             else -> genR.plus("i".repeat(length - 1).plus("v"))

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language">Bonheur</string>
+    <string name="about">A propos</string>
+    <string name="others">Divers</string>
+    <string name="arrow_back">flêche retour</string>
+    <string name="content">Contenu</string>
+    <string name="height">Hauteur</string>
+    <string name="weight">Poids</string>
+    <string name="unknown">Inconnu</string>
+    <string name="capture_rate">Taux de capture</string>
+    <string name="egg_groups">Groupes d\'oeuf</string>
+    <string name="breeding">Reproduction</string>
+    <string name="abilities">Compétences</string>
+    <string name="shape">Forme</string>
+    <string name="grow_rate">Croissance</string>
+    <string name="base_happiness">Bonheur</string>
+    <string name="total">Total</string>
+    <string name="stats">Statistiques</string>
+    <string name="habitat">Habitat</string>
+    <string name="retry">Réessayez</string>
+    <string name="eng_language">Anglais</string>
+    <string name="ko_language">Coréen</string>
+    <string name="fr_language">Français</string>
+    <string name="es_language">Espagnol</string>
+    <string name="ja_language">Japonais</string>
+    <string name="it_language">Italien</string>
+    <string name="http_exception_err">Oups, quelque chose s\'est mal passé !</string>
+    <string name="io_exception_err">Impossible d\'accéder au serveur, vérifiez votre connexion Internet.</string>
+</resources>

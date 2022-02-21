@@ -9,15 +9,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drimov.pokedex.domain.model.PokemonData
 import com.drimov.pokedex.domain.use_case.GetPokemon
+import com.drimov.pokedex.domain.use_case.GetStringPrefs
 import com.drimov.pokedex.util.Resource
 import com.drimov.pokedex.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import org.intellij.lang.annotations.Language
 import javax.inject.Inject
 
 
@@ -30,6 +29,9 @@ class PokedexPokemonViewModel @Inject constructor(
     private val _state = mutableStateOf(PokedexPokemonInfoState())
     val state: State<PokedexPokemonInfoState> = _state
 
+    private val _language = mutableStateOf("")
+    val language: State<String> = _language
+
     private val _uiEvent = MutableSharedFlow<UiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
 
@@ -39,9 +41,9 @@ class PokedexPokemonViewModel @Inject constructor(
 
     init {
         val pokemonId = savedStateHandle.get<Int>("id")
-        if (pokemonId != null) {
-            getPokemonInfo(pokemonId)
-        }
+        val language = savedStateHandle.get<String>("language")
+        _language.value = language!!
+        getPokemonInfo(pokemonId)
     }
 
     fun onEvent(event: PokedexPokemonEvent) {
@@ -94,11 +96,6 @@ class PokedexPokemonViewModel @Inject constructor(
 //                                pokemonSpecies = item.dataY,
 //                                isLoading = false
 //                            )
-                            _uiEvent.emit(
-                                UiEvent.ShowSnackBar(
-                                    item.message ?: "Unknown Error"
-                                )
-                            )
                         }
                     }
                 }.launchIn(this)

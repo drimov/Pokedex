@@ -28,6 +28,11 @@ interface PokedexApi {
         @Path("id") id: Int
     ): Response<GrowthRateTranslate>
 
+    @GET("stat/{id}")
+    suspend fun getStatTranslate(
+        @Path("id") id: Int
+    ): Response<StatTranslate>
+
     @GET("pokemon-habitat/{id}")
     suspend fun getHabitat(
         @Path("id") id: Int
@@ -39,7 +44,7 @@ interface PokedexApi {
     ): Response<ShapeTranslate>
 
     @GET("ability/{id}")
-    suspend fun getAbilityDesc(
+    suspend fun getAbility(
         @Path("id") id: Int
     ): Response<AbilityTranslate>
 

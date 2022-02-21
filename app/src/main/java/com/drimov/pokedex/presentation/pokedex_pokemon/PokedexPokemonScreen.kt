@@ -5,9 +5,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
@@ -31,13 +29,11 @@ import com.drimov.pokedex.R
 import com.drimov.pokedex.data.remote.dto.AbilityTranslate
 import com.drimov.pokedex.data.remote.dto.Pokemon
 import com.drimov.pokedex.data.remote.dto.PokemonSpecies
-import com.drimov.pokedex.data.remote.dto.Stat
 import com.drimov.pokedex.domain.model.PokemonData
 import com.drimov.pokedex.presentation.ui.theme.Blue700
 import com.drimov.pokedex.presentation.ui.theme.Grey200
 import com.drimov.pokedex.presentation.ui.theme.Red200
 import com.drimov.pokedex.util.*
-import com.drimov.pokedex.util.Constants.DEFAULT_LANGUAGE
 import com.drimov.pokedex.util.Constants.footToMeter
 import com.drimov.pokedex.util.Constants.lbsToKg
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -52,11 +48,15 @@ fun PokedexPokemonScreen(
     onPopBackStack: () -> Unit,
     viewModel: PokedexPokemonViewModel = hiltViewModel()
 ) {
-    val defaultLanguage = "fr"
+    // jap  ja-Hrkt
+    // ko korean
+    val defaultLanguage = viewModel.language
+    var language = defaultLanguage.value
+   when(language){
+       "ja" -> language = "ja-Hrkt"
+   }
     val color = Color.White
     val fontSize = 18.sp
-    // name
-
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -86,7 +86,7 @@ fun PokedexPokemonScreen(
                 viewModel = viewModel,
                 color = color,
                 fontSize = fontSize,
-                language = defaultLanguage
+                language = language
             )
         }
     }
@@ -346,8 +346,9 @@ fun PagersContent(
             )
             1 -> StatsCard(
                 modifier = modifier,
+                pokemonData = pokemonData,
+                language = language,
                 color = color,
-                stats = pokemonData.pokemon.stats
             )
             2 -> OthersCard(
                 modifier = modifier,
@@ -547,18 +548,29 @@ fun BreedingObject(modifier: Modifier, color: Color, pokemonData: PokemonData, l
 // -------- STATS -------- //
 
 @Composable
-fun StatsCard(modifier: Modifier, stats: List<Stat>, color: Color) {
+fun StatsCard(modifier: Modifier, pokemonData: PokemonData, language: String, color: Color) {
     Row(
         modifier = modifier
             .fillMaxSize(),
     ) {
+        val statsTrl = pokemonData.stats
+        val stats = pokemonData.pokemon.stats
+
         //Property
         Column(modifier = modifier.weight(0.35f)) {
-            stats.forEach {
+            statsTrl.forEach {
+                var idStat = 5
+                it.names.forEachIndexed { index, name ->
+                    if (name.language.name == language) {
+                        idStat = index
+                    }
+                }
+
                 Text(
-                    text = it.stat.name.ucFirst(),
+                    text = it.names[idStat].name.ucFirst(),
                     modifier = modifier.padding(6.dp),
-                    color = color
+                    color = color,
+                    textAlign = TextAlign.Justify
                 )
             }
             Text(
@@ -569,7 +581,7 @@ fun StatsCard(modifier: Modifier, stats: List<Stat>, color: Color) {
         }
         // Values
         var totalStat = 0
-        Column(modifier = modifier.weight(0.15f)) {
+        Column(modifier = modifier.weight(0.10f)) {
             stats.forEach {
                 Text(
                     text = it.base_stat.toString(),
@@ -639,19 +651,19 @@ fun OthersCard(
             .fillMaxSize()
             .padding(8.dp)
     ) {
-        var idGrowthRate = DEFAULT_LANGUAGE
+        var idGrowthRate = 2
         growRate.descriptions.forEachIndexed { index, description ->
             if (description.language.name == language) {
                 idGrowthRate = index
             }
         }
-        var idHabitat = DEFAULT_LANGUAGE
+        var idHabitat = 2
         habitat?.names?.forEachIndexed { index, name ->
             if (name.language.name == language) {
                 idHabitat = index
             }
         }
-        var idShape = DEFAULT_LANGUAGE
+        var idShape = 1
         shape?.names?.forEachIndexed { index, name ->
             if (name.language.name == language) {
                 idShape = index

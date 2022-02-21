@@ -39,7 +39,8 @@ fun PokemonInfo(
             .clickable {
                 viewModel.onEvent(
                     PokedexListEvent.OnPokemonClick(
-                        id
+                        id,
+                        viewModel.language.value
                     )
                 )
             },

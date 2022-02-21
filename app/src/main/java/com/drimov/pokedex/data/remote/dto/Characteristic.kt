@@ -1,6 +1,5 @@
 package com.drimov.pokedex.data.remote.dto
 
-data class PokemonSpecy(
-    var name: String,
+data class Characteristic(
     val url: String
 )

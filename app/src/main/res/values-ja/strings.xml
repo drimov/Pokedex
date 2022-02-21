@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language">言語</string>
+    <string name="about">だいたい</string>
+    <string name="others">様</string>
+    <string name="base_happiness">幸福</string>
+    <string name="grow_rate">成長</string>
+    <string name="shape">フォーム</string>
+    <string name="abilities">能力</string>
+    <string name="breeding">育種</string>
+    <string name="egg_groups">卵グループ</string>
+    <string name="capture_rate">捕獲率</string>
+    <string name="unknown">未知の</string>
+    <string name="height">高さ</string>
+    <string name="weight">重さ</string>
+    <string name="content">コンテンツ</string>
+    <string name="arrow_back">戻る矢印</string>
+    <string name="total">統計</string>
+    <string name="stats">合計</string>
+    <string name="habitat">生息地</string>
+    <string name="retry">リトライ</string>
+    <string name="eng_language">英語</string>
+    <string name="ko_language">韓国語</string>
+    <string name="fr_language">フランス語</string>
+    <string name="es_language">スペイン語</string>
+    <string name="ja_language">日本語</string>
+    <string name="it_language">イタリアの</string>
+    <string name="http_exception_err">おっと！何かが間違っていた！</string>
+    <string name="io_exception_err">サーバーに到達できませんでした。インターネット接続を確認してください。</string>
+</resources>

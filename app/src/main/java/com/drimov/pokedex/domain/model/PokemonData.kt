@@ -9,5 +9,6 @@ data class PokemonData(
     val habitat: HabitatTranslate?,
     val shape: ShapeTranslate?,
     val abilities: List<AbilityTranslate>?,
-    val egg: List<EggTranslate>?
+    val egg: List<EggTranslate>?,
+    val stats : List<StatTranslate>
 )

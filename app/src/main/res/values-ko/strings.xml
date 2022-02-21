@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language">언어</string>
+    <string name="about">정보</string>
+    <string name="others">다른</string>
+    <string name="base_happiness">행복</string>
+    <string name="grow_rate">성장률</string>
+    <string name="shape">모양</string>
+    <string name="abilities">능력</string>
+    <string name="breeding">번식</string>
+    <string name="egg_groups">계란 그룹</string>
+    <string name="capture_rate">캡처 속도</string>
+    <string name="unknown">알려지지 않은</string>
+    <string name="height">신장</string>
+    <string name="weight">무게</string>
+    <string name="content">함유량</string>
+    <string name="arrow_back">뒤로 화살표</string>
+    <string name="stats">통계</string>
+    <string name="total">"계 "</string>
+    <string name="habitat">서식지</string>
+    <string name="retry">재시도</string>
+    <string name="eng_language">영어</string>
+    <string name="ko_language">한국인</string>
+    <string name="fr_language">프랑스 국민</string>
+    <string name="es_language">스페인의</string>
+    <string name="ja_language">일본어</string>
+    <string name="it_language">이탈리아어</string>
+    <string name="http_exception_err">아차! 문제가 발생했습니다!</string>
+    <string name="io_exception_err">서버에 연결할 수 없습니다. 인터넷 연결을 확인하세요.</string>
+</resources>

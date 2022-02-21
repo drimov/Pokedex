@@ -1,8 +1,7 @@
 <resources>
-    <string name="app_name">Pokedex</string>
+    <string name="app_name" translatable="false">Pokedex</string>
 
-    <string name="retry">Retry</string>
-
+    <string name="language">Language</string>
     <string name="about">About</string>
     <string name="stats">Stats</string>
     <string name="others">Other</string>
@@ -19,13 +18,22 @@
 
     <string name="height">Height</string>
     <string name="weight">Weight</string>
-    <string name="kg">kg</string>
-    <string name="lbs">lbs</string>
-    <string name="feet">\"</string>
-    <string name="meter">m</string>
+    <string name="kg" translatable="false">kg</string>
+    <string name="lbs" translatable="false">lbs</string>
+    <string name="feet" translatable="false">\"</string>
+    <string name="meter" translatable="false">m</string>
 
-    <string name="type">type-%1s</string>
+    <string name="type" translatable="false">type-%1s</string>
 
     <string name="content">Content</string>
-    <string name="arrow_back">arrow back</string>
+    <string name="arrow_back">back arrow</string>
+    <string name="retry">Retry</string>
+    <string name="eng_language">English</string>
+    <string name="ko_language">Korean</string>
+    <string name="fr_language">French</string>
+    <string name="es_language">Spanish</string>
+    <string name="ja_language">Japanese</string>
+    <string name="it_language">Italian</string>
+    <string name="http_exception_err">Oops, something went wrong!</string>
+    <string name="io_exception_err">Couldn\'t reach server, check your internet connection.</string>
 </resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language">Idioma</string>
+    <string name="about">Sobra</string>
+    <string name="others">Diverso</string>
+    <string name="shape">Forma</string>
+    <string name="grow_rate">Crecimiento</string>
+    <string name="base_happiness">Felicidad</string>
+    <string name="abilities">Habilidades</string>
+    <string name="breeding">Cría</string>
+    <string name="egg_groups">Grupos de huevos</string>
+    <string name="capture_rate">Tasa de captura</string>
+    <string name="unknown">Desconocido</string>
+    <string name="height">Altura</string>
+    <string name="weight">Peso</string>
+    <string name="content">Contenido</string>
+    <string name="arrow_back">flecha hacia atrás</string>
+    <string name="stats">Estadísticas</string>
+    <string name="total">Total</string>
+    <string name="habitat">Habitat</string>
+    <string name="retry">Rever</string>
+    <string name="eng_language">Inglès</string>
+    <string name="ko_language">Coreano</string>
+    <string name="fr_language">Francés</string>
+    <string name="es_language">Español</string>
+    <string name="ja_language">Japonés</string>
+    <string name="it_language">Italiano</string>
+    <string name="http_exception_err">¡Huy! Algo salió mal!</string>
+    <string name="io_exception_err">No se pudo conectar con el servidor, verifique su conexión a Internet.</string>
+</resources>

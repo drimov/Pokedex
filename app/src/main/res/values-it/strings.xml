@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language">Lingua</string>
+    <string name="about">Di</string>
+    <string name="others">Vari</string>
+    <string name="base_happiness">Felicità</string>
+    <string name="grow_rate">Crescita</string>
+    <string name="shape">Forma</string>
+    <string name="abilities">Abilità</string>
+    <string name="breeding">Allevamento</string>
+    <string name="egg_groups">Gruppi di uova</string>
+    <string name="capture_rate">Tasso di cattura</string>
+    <string name="unknown">Sconosciuto</string>
+    <string name="height">Altezza</string>
+    <string name="weight">Peso</string>
+    <string name="content">Contenuto</string>
+    <string name="arrow_back">freccia indietro</string>
+    <string name="stats">Statistiche</string>
+    <string name="total">Totale</string>
+    <string name="habitat">Habitat</string>
+    <string name="retry">Riprova</string>
+    <string name="eng_language">Inglese</string>
+    <string name="ko_language">Coreano</string>
+    <string name="fr_language">Francese</string>
+    <string name="es_language">Spagnolo</string>
+    <string name="ja_language">Giapponese</string>
+    <string name="it_language">Italiano</string>
+    <string name="http_exception_err">Oops! Qualcosa è andato storto!</string>
+    <string name="io_exception_err">Impossibile raggiungere il server, controlla la tua connessione a Internet.</string>
+</resources>
