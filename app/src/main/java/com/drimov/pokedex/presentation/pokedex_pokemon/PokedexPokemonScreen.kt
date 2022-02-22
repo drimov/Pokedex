@@ -422,9 +422,8 @@ fun Information(modifier: Modifier, pokemon: Pokemon) {
     ) {
         Row(
             modifier = modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Spacer(modifier = modifier.padding(8.dp))
             InformationHeight(modifier = modifier, pokemon = pokemon)
             InformationWeight(modifier = modifier, pokemon = pokemon)
         }
