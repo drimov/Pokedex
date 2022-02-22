@@ -123,11 +123,11 @@ class PokemonRepositoryImpl(
                         }
                         requestEgg = true
                     }
-                    Log.d("growthRate", "${growthRateTrl.isSuccessful}")
-                    Log.d("Shape", "${shapeTrl?.isSuccessful}")
-                    Log.d("habitat", "${habitatTrl?.isSuccessful}")
-                    Log.d("abs", "$requestAbilityDesc")
-                    Log.d("egg", "$requestEgg")
+//                    Log.d("growthRate", "${growthRateTrl.isSuccessful}")
+//                    Log.d("Shape", "${shapeTrl?.isSuccessful}")
+//                    Log.d("habitat", "${habitatTrl?.isSuccessful}")
+//                    Log.d("abs", "$requestAbilityDesc")
+//                    Log.d("egg", "$requestEgg")
                     if (growthRateTrl.isSuccessful && requestAbilityDesc && requestEgg && requestStats) {
                         val pokemonData =
                             PokemonData(
@@ -140,7 +140,7 @@ class PokemonRepositoryImpl(
                                 egg = eggs,
                                 stats = stats!!
                             )
-                        Log.d("pokemonData", "is create")
+//                        Log.d("pokemonData", "is create")
                         emit(Resource.Success(pokemonData))
                     }
                 }

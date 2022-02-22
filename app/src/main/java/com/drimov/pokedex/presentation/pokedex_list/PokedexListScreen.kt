@@ -1,6 +1,5 @@
 package com.drimov.pokedex.presentation.pokedex_list
 
-import android.graphics.drawable.VectorDrawable
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
@@ -10,10 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment.Companion.Center
@@ -21,7 +17,6 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.TopStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -30,12 +25,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.ImagePainter
 import com.drimov.pokedex.R
 import com.drimov.pokedex.presentation.ui.theme.Blue700
 import com.drimov.pokedex.presentation.ui.theme.Red200
-import com.drimov.pokedex.util.*
+import com.drimov.pokedex.util.Constants
 import com.drimov.pokedex.util.Constants.nbGen
+import com.drimov.pokedex.util.UiEvent
+import com.drimov.pokedex.util.parseGeneration
+import com.drimov.pokedex.util.parseNbToRomanNb
 import kotlinx.coroutines.flow.collect
 import java.util.*
 
@@ -74,14 +71,13 @@ fun PokedexListScreen(
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 expandedGen = !expandedGen
-            },backgroundColor = Red200) {
+            }, backgroundColor = Red200) {
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = stringResource(id = R.string.content),
                     tint = Color.White
                 )
             }
-//            val drawable = LocalContext.current.resources.getDrawable(R.drawable.ic_baseline_translate_24) as ImageVector
             FloatingActionButton(onClick = {
                 expandedLanguage = !expandedLanguage
             }, backgroundColor = Red200, modifier = Modifier.offset(y = ((-75).dp))) {
@@ -91,10 +87,6 @@ fun PokedexListScreen(
                         id = R.string.language,
                     ),
                 )
-//                Icon(
-//                    imageVector = Icons.Filled.t,
-//                    contentDescription = stringResource(id = R.string.language)
-//                )
             }
         }
     ) {
@@ -113,7 +105,6 @@ fun PokedexListScreen(
                 onDismissRequest = { expandedLanguage = !expandedLanguage },
                 modifier = Modifier,
                 viewModel = viewModel,
-//                languageLoad = { currentLanguage = it }
             )
         }
         PokemonList(modifier = Modifier, state = state, viewModel = viewModel)
@@ -128,7 +119,6 @@ fun DropMenuLoad(
     modifier: Modifier,
     onDismissRequest: () -> Unit,
     viewModel: PokedexListViewModel,
-//    languageLoad: (String) -> Unit
 ) {
     val listLanguages = mapOf<String, String>(
         "en" to stringResource(id = R.string.eng_language),
@@ -150,7 +140,6 @@ fun DropMenuLoad(
             listLanguages.entries.forEach { entry ->
                 DropdownMenuItem(
                     onClick = {
-//                        languageLoad(entry.key)
                         viewModel.onEvent(
                             PokedexListEvent.OnLanguageClick(entry.key)
                         )
@@ -215,6 +204,7 @@ private fun SetLanguage(language: String) {
     config.setLocale(locale)
     val resources = LocalContext.current.resources
     resources.updateConfiguration(config, resources.displayMetrics)
+
 }
 
 @Composable

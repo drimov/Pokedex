@@ -66,6 +66,7 @@ class PokedexListViewModel @Inject constructor(
         }
     }
 
+
     private fun setLanguage(language: String) {
         loadJob = viewModelScope.launch {
             putStringPrefs.invoke(KEY_STORE, language)
@@ -75,7 +76,7 @@ class PokedexListViewModel @Inject constructor(
     private fun getLanguage(defaultLanguage: String) {
 
         loadJob = viewModelScope.launch {
-            getStringPrefs.invoke().collect { entryLanguage ->
+            getStringPrefs.invoke(KEY_STORE).collect { entryLanguage ->
                 when (entryLanguage) {
                     is Resource.Success -> {
                         if (entryLanguage.data.isNullOrEmpty()) {

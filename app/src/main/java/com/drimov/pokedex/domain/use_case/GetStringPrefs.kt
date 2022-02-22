@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 class GetStringPrefs(
     private val repository: UserPrefsRepository
 ) {
-    suspend operator fun invoke(): Flow<Resource<String?>> {
-        return repository.getStringPrefs()
+    suspend operator fun invoke(key:String): Flow<Resource<String?>> {
+        return repository.getStringPrefs(key)
     }
 }

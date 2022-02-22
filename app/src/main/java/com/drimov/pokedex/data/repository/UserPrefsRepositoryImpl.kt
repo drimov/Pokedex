@@ -29,11 +29,11 @@ class UserPrefsRepositoryImpl(
         }
     }
 
-    override suspend fun getStringPrefs(): Flow<Resource<String?>> =
+    override suspend fun getStringPrefs(key: String): Flow<Resource<String?>> =
         flow {
             emit(Resource.Loading<String?>())
             try {
-                val preferencesKey = stringPreferencesKey(USER_PREFERENCES)
+                val preferencesKey = stringPreferencesKey(key)
                 val preferences = context.dataStore.data.first()
                 emit(Resource.Success<String?>(preferences[preferencesKey]))
 
