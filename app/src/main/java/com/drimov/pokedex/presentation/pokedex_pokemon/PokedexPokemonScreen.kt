@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
@@ -265,7 +266,6 @@ fun HeaderTypeText(
             .padding(16.dp),
         color = color
     )
-
 }
 
 @OptIn(ExperimentalCoilApi::class)
@@ -287,7 +287,10 @@ fun HeaderPokemonImg(modifier: Modifier, viewModel: PokedexPokemonViewModel, pok
             alignment = BottomCenter
         )
         if (painterState is ImagePainter.State.Loading) {
-            CircularProgressIndicator()
+            Box(modifier = modifier.fillMaxSize().size(210.dp)){
+                CircularProgressIndicator(modifier = Modifier.align(Center))
+            }
+
         }
     }
 }
