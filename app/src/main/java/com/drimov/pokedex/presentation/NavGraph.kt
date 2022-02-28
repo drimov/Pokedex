@@ -1,5 +1,7 @@
 package com.drimov.pokedex.presentation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -11,6 +13,7 @@ import com.drimov.pokedex.presentation.pokedex_pokemon.PokedexPokemonScreen
 import com.drimov.pokedex.presentation.pokedex_splash.PokedexSplashScreen
 import com.drimov.pokedex.util.Routes
 
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun SetupNavGraph(
     navController: NavHostController

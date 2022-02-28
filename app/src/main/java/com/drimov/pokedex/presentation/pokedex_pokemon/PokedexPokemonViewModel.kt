@@ -9,14 +9,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drimov.pokedex.domain.model.PokemonData
 import com.drimov.pokedex.domain.use_case.GetPokemon
-import com.drimov.pokedex.domain.use_case.GetStringPrefs
 import com.drimov.pokedex.util.Resource
 import com.drimov.pokedex.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.intellij.lang.annotations.Language
 import javax.inject.Inject
 
 
@@ -65,12 +66,6 @@ class PokedexPokemonViewModel @Inject constructor(
                                 isLoading = false,
                                 isError = false
                             )
-//                            _state.value = state.value.copy(
-//                                pokemon = item.dataT,
-//                                pokemonSpecies = item.dataY,
-//                                isLoading = false
-//                            )
-//                            this@PokedexPokemonViewModel.pokemon = _state.value.pokemon
                             this@PokedexPokemonViewModel.pokemonData = _state.value.pokemonData
                         }
                         is Resource.Loading -> {
@@ -79,11 +74,6 @@ class PokedexPokemonViewModel @Inject constructor(
                                 isLoading = true,
                                 isError = false
                             )
-//                            _state.value = state.value.copy(
-//                                pokemon = item.dataT,
-//                                pokemonSpecies = item.dataY,
-//                                isLoading = true
-//                            )
                         }
                         is Resource.Error -> {
                             _state.value = state.value.copy(
@@ -91,11 +81,6 @@ class PokedexPokemonViewModel @Inject constructor(
                                 isLoading = false,
                                 isError = true
                             )
-//                            _state.value = state.value.copy(
-//                                pokemon = item.dataT,
-//                                pokemonSpecies = item.dataY,
-//                                isLoading = false
-//                            )
                         }
                     }
                 }.launchIn(this)
